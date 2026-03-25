@@ -1,29 +1,76 @@
-[ ] Phase 1 - Foundation
-[ ] 1.1 Define roles and account model (venue, performer, planner, admin)
-[ ] 1.2 Build city-scoped onboarding for performers and venues
-[ ] 1.3 Implement authenticated dashboard shell
+[ ] Phase 1 - Foundation (17 stories)
+    [ ] W-000001 Clerk integration and sign-up/sign-in [P0]
+    [ ] W-000002 Role selection during onboarding [P0]
+    [ ] W-000003 Role-based route protection [P0]
+    [ ] W-000004 Admin and City Manager role assignment [P1]
+    [ ] W-000005 City model and seed data in Convex [P0]
+    [ ] W-000006 City selection during onboarding [P0]
+    [ ] W-000007 Request a new city [P1]
+    [ ] W-000008 Admin approves or rejects city requests [P1]
+    [ ] W-000009 Venue profile creation [P0]
+    [ ] W-000010 Venue profile editing [P1]
+    [ ] W-000011 Performer profile creation [P0]
+    [ ] W-000012 Performer profile editing [P1]
+    [ ] W-000013 Planner onboarding and profile [P0]
+    [ ] W-000014 Admin dashboard shell [P0]
+    [ ] W-000015 User management (view, suspend, change role) [P1]
+    [ ] W-000016 Input validation and sanitization framework [P0]
+    [ ] W-000017 CI/CD pipeline with Vercel preview deployments [P1]
 
-[ ] Phase 2 - Marketplace Core
-[ ] 2.1 Build act listing schema and search filters
-[ ] 2.2 Implement booking request and response workflow
-[ ] 2.3 Add booking lifecycle states and transitions
+[ ] Phase 2 - Marketplace Core (17 stories)
+    [ ] W-000018 Recurring availability pattern [P0]
+    [ ] W-000019 Date-specific availability overrides [P1]
+    [ ] W-000020 Availability display on performer profile [P1]
+    [ ] W-000021 Automatic booking conflict detection [P0]
+    [ ] W-000022 Booking request creation [P0]
+    [ ] W-000023 Performer accepts or declines a request [P0]
+    [ ] W-000024 Full booking lifecycle state machine [P0]
+    [ ] W-000025 Booking cancellation by either party [P1]
+    [ ] W-000026 Browse performers in my city [P0]
+    [ ] W-000027 Filter by genre, date, and availability [P1]
+    [ ] W-000028 Venue public profile page [P1]
+    [ ] W-000029 Temporary venue records from planner bookings [P2]
+    [ ] W-000030 Planner books at a registered venue [P1]
+    [ ] W-000031 Planner books at an arbitrary location [P1]
+    [ ] W-000032 Performer public profile page [P1]
+    [ ] W-000033 In-app real-time notifications [P1]
+    [ ] W-000034 Convex schema and mutation unit tests [P1]
 
-[ ] Phase 3 - Trust and Reputation
-[ ] 3.1 Capture post-gig outcome metrics
-[ ] 3.2 Implement reliability score model
-[ ] 3.3 Add venue feedback and performer trust signals
+[ ] Phase 3 - Trust and Reputation (8 stories)
+    [ ] W-000035 Post-gig venue rates performer [P1]
+    [ ] W-000036 Post-gig performer rates venue [P1]
+    [ ] W-000037 Reliability score computation [P1]
+    [ ] W-000038 Credibility signals on performer profile [P1]
+    [ ] W-000039 Dispute flagging after a gig [P1]
+    [ ] W-000040 Admin dispute resolution [P1]
+    [ ] W-000041 City manager scoped moderation [P1]
+    [ ] W-000042 Email notifications for critical events [P2]
 
-[ ] Phase 4 - Monetization
-[ ] 4.1 Implement commission ledger per booking
-[ ] 4.2 Add subscription feature gates for venues
-[ ] 4.3 Build billing entitlement middleware
+[ ] Phase 4 - Monetization (11 stories)
+    [ ] W-000043 Commission ledger per booking [P1]
+    [ ] W-000044 Stripe Connect onboarding for performers [P1]
+    [ ] W-000045 Payment capture on booking completion [P1]
+    [ ] W-000046 Payment hold and release for disputes [P2]
+    [ ] W-000047 Subscription tier management (Free/Pro) [P1]
+    [ ] W-000048 Entitlement middleware for premium features [P1]
+    [ ] W-000049 Early access intro plan [P2]
+    [ ] W-000050 Sort search results by reliability score [P2]
+    [ ] W-000051 Priority placement for Pro subscribers [P2]
+    [ ] W-000052 Platform-wide metrics dashboard [P2]
+    [ ] W-000053 Venue booking analytics (Pro feature) [P2]
 
-[ ] Phase 5 - Expansion Workflow
-[ ] 5.1 Add private event planner flow
-[ ] 5.2 Support recurring/rebook workflows
-[ ] 5.3 Build multi-venue analytics views
+[ ] Phase 5 - Expansion (6 stories)
+    [ ] W-000054 Planner rebooking from history [P2]
+    [ ] W-000055 Seasonal planning calendar [P2]
+    [ ] W-000056 Multi-venue analytics for planners [P2]
+    [ ] W-000057 Demand insights by genre and date [P2]
+    [ ] W-000058 Venue claim flow for temporary records [P2]
+    [ ] W-000059 SMS notifications (opt-in) [P2]
 
-[ ] Phase 6 - Hardening and Launch
-[ ] 6.1 Add anti-abuse moderation controls
-[ ] 6.2 Expand regression and E2E test coverage
-[ ] 6.3 Final deployment and ops runbook
+[ ] Phase 6 - Hardening and Launch (6 stories)
+    [ ] W-000060 Anti-abuse controls for reviews [P1]
+    [ ] W-000061 Rate limiting on booking and review actions [P1]
+    [ ] W-000062 Error boundaries and fallback UI [P1]
+    [ ] W-000063 End-to-end tests for critical flows [P1]
+    [ ] W-000064 Operational monitoring and alerting [P2]
+    [ ] W-000065 Deployment runbook and release checklist [P2]
