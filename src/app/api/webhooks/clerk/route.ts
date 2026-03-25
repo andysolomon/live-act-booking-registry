@@ -1,6 +1,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import type { WebhookEvent } from "@clerk/nextjs/server";
+import { fetchMutation } from "convex/nextjs";
+import { api } from "../../../../../convex/_generated/api";
 
 export async function POST(req: Request) {
   const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -38,23 +40,17 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
-    const { id, email_addresses, first_name, last_name } = evt.data;
-    console.log(`[clerk-webhook] user.created: ${id}`, {
-      email: email_addresses[0]?.email_address,
-      firstName: first_name,
-      lastName: last_name,
-    });
-    // TODO: Create Convex user record (W-000005)
+    const { id } = evt.data;
+    console.log(`[clerk-webhook] user.created: ${id}`);
+    await fetchMutation(api.users.createUser, { clerkId: id });
   }
 
   if (eventType === "user.updated") {
     console.log(`[clerk-webhook] user.updated: ${evt.data.id}`);
-    // TODO: Update Convex user record (W-000005)
   }
 
   if (eventType === "user.deleted") {
     console.log(`[clerk-webhook] user.deleted: ${evt.data.id}`);
-    // TODO: Soft-delete Convex user record (W-000005)
   }
 
   return new Response("OK", { status: 200 });
