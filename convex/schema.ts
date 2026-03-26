@@ -13,6 +13,15 @@ export default defineSchema({
         v.literal("city_manager"),
       ),
     ),
+    cityId: v.optional(v.id("cities")),
     createdAt: v.number(),
   }).index("by_clerkId", ["clerkId"]),
+
+  cities: defineTable({
+    name: v.string(),
+    stateOrRegion: v.string(),
+    country: v.string(),
+    isActive: v.boolean(),
+    createdAt: v.number(),
+  }).index("by_isActive", ["isActive"]),
 });
