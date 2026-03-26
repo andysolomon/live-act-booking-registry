@@ -62,3 +62,28 @@ export const setRole = mutation({
     return user._id;
   },
 });
+
+export const setCity = mutation({
+  args: {
+    clerkId: v.string(),
+    cityId: v.id("cities"),
+  },
+  handler: async (ctx, { clerkId, cityId }) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", clerkId))
+      .unique();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const city = await ctx.db.get(cityId);
+    if (!city || !city.isActive) {
+      throw new Error("City not found or inactive");
+    }
+
+    await ctx.db.patch(user._id, { cityId });
+    return user._id;
+  },
+});
