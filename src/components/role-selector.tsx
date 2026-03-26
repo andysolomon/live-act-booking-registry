@@ -19,7 +19,7 @@ export function RoleSelector() {
     setLoading(true);
     try {
       await setRole({ clerkId: user.id, role: selected });
-      router.push("/dashboard");
+      router.push("/onboarding/city");
     } catch {
       setLoading(false);
     }

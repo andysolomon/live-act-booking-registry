@@ -19,6 +19,10 @@ export async function getAuthenticatedUser() {
     redirect("/onboarding/role-selection");
   }
 
+  if (!convexUser.cityId) {
+    redirect("/onboarding/city");
+  }
+
   return {
     clerkUser,
     convexUser: convexUser as typeof convexUser & { role: UserRole },
