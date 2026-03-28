@@ -17,6 +17,20 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_clerkId", ["clerkId"]),
 
+  cityRequests: defineTable({
+    name: v.string(),
+    stateOrRegion: v.string(),
+    country: v.string(),
+    requestedBy: v.string(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("rejected"),
+    ),
+    rejectionReason: v.optional(v.string()),
+    createdAt: v.number(),
+  }).index("by_status", ["status"]),
+
   cities: defineTable({
     name: v.string(),
     stateOrRegion: v.string(),
