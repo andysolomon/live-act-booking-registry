@@ -9,6 +9,7 @@
  */
 
 import type * as cities from "../cities.js";
+import type * as cityRequests from "../cityRequests.js";
 import type * as users from "../users.js";
 
 import type {
@@ -19,6 +20,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   cities: typeof cities;
+  cityRequests: typeof cityRequests;
   users: typeof users;
 }>;
 
