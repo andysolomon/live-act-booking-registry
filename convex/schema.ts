@@ -14,6 +14,9 @@ export default defineSchema({
       ),
     ),
     cityId: v.optional(v.id("cities")),
+    status: v.optional(
+      v.union(v.literal("active"), v.literal("suspended")),
+    ),
     createdAt: v.number(),
   }).index("by_clerkId", ["clerkId"]),
 

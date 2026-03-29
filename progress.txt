@@ -12,9 +12,9 @@
     [x] W-000011 Performer profile creation [P0]
     [x] W-000012 Performer profile editing [P1]
     [x] W-000013 Planner onboarding and profile [P0]
-    [ ] W-000014 Admin dashboard shell [P0]
-    [ ] W-000015 User management (view, suspend, change role) [P1]
-    [ ] W-000016 Input validation and sanitization framework [P0]
+    [x] W-000014 Admin dashboard shell [P0]
+    [x] W-000015 User management (view, suspend, change role) [P1]
+    [x] W-000016 Input validation and sanitization framework [P0]
     [ ] W-000017 CI/CD pipeline with Vercel preview deployments [P1]
 
 [ ] Phase 2 - Marketplace Core (17 stories)

@@ -15,6 +15,10 @@ export async function getAuthenticatedUser() {
     clerkId: clerkUser.id,
   });
 
+  if (convexUser?.status === "suspended") {
+    redirect("/suspended");
+  }
+
   if (!convexUser?.role) {
     redirect("/onboarding/role-selection");
   }
