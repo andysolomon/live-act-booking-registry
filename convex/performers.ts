@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { sanitizeText } from "./lib/sanitize";
 
 export const createPerformer = mutation({
   args: {
@@ -34,16 +35,12 @@ export const createPerformer = mutation({
       throw new Error(`Stage name "${stageName}" is already taken in this city`);
     }
 
-    if (bio.length > 500) {
-      throw new Error("Bio must be 500 characters or fewer");
-    }
-
     return await ctx.db.insert("performers", {
       ownerId: clerkId,
-      stageName: stageName.trim(),
+      stageName: sanitizeText(stageName, 200, "Stage name"),
       genres,
       baseRateCents,
-      bio: bio.trim(),
+      bio: sanitizeText(bio, 500, "Bio"),
       cityId,
       createdAt: Date.now(),
     });
@@ -90,15 +87,11 @@ export const updatePerformer = mutation({
       }
     }
 
-    if (bio !== undefined && bio.length > 500) {
-      throw new Error("Bio must be 500 characters or fewer");
-    }
-
     const updates: Record<string, unknown> = {};
-    if (stageName !== undefined) updates.stageName = stageName.trim();
+    if (stageName !== undefined) updates.stageName = sanitizeText(stageName, 200, "Stage name");
     if (genres !== undefined) updates.genres = genres;
     if (baseRateCents !== undefined) updates.baseRateCents = baseRateCents;
-    if (bio !== undefined) updates.bio = bio.trim();
+    if (bio !== undefined) updates.bio = sanitizeText(bio, 500, "Bio");
 
     if (Object.keys(updates).length > 0) {
       await ctx.db.patch(performer._id, updates);

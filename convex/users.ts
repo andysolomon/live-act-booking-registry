@@ -170,3 +170,58 @@ export const setAdminRole = mutation({
     return target._id;
   },
 });
+
+export const suspendUser = mutation({
+  args: {
+    adminClerkId: v.string(),
+    targetClerkId: v.string(),
+  },
+  handler: async (ctx, { adminClerkId, targetClerkId }) => {
+    const admin = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", adminClerkId))
+      .unique();
+
+    if (!admin || (admin.role !== "admin" && admin.role !== "city_manager")) {
+      throw new Error("Only admins can suspend users");
+    }
+
+    const target = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", targetClerkId))
+      .unique();
+
+    if (!target) throw new Error("User not found");
+    if (target.role === "admin") throw new Error("Cannot suspend an admin");
+
+    await ctx.db.patch(target._id, { status: "suspended" });
+    return target._id;
+  },
+});
+
+export const unsuspendUser = mutation({
+  args: {
+    adminClerkId: v.string(),
+    targetClerkId: v.string(),
+  },
+  handler: async (ctx, { adminClerkId, targetClerkId }) => {
+    const admin = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", adminClerkId))
+      .unique();
+
+    if (!admin || (admin.role !== "admin" && admin.role !== "city_manager")) {
+      throw new Error("Only admins can unsuspend users");
+    }
+
+    const target = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", targetClerkId))
+      .unique();
+
+    if (!target) throw new Error("User not found");
+
+    await ctx.db.patch(target._id, { status: "active" });
+    return target._id;
+  },
+});

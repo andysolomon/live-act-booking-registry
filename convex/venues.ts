@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { sanitizeText } from "./lib/sanitize";
 
 export const createVenue = mutation({
   args: {
@@ -21,8 +22,8 @@ export const createVenue = mutation({
 
     return await ctx.db.insert("venues", {
       ownerId: clerkId,
-      name: name.trim(),
-      address: address.trim(),
+      name: sanitizeText(name, 200, "Venue name"),
+      address: sanitizeText(address, 500, "Address"),
       cityId,
       capacity,
       createdAt: Date.now(),
@@ -48,8 +49,8 @@ export const updateVenue = mutation({
     }
 
     const updates: Record<string, unknown> = {};
-    if (name !== undefined) updates.name = name.trim();
-    if (address !== undefined) updates.address = address.trim();
+    if (name !== undefined) updates.name = sanitizeText(name, 200, "Venue name");
+    if (address !== undefined) updates.address = sanitizeText(address, 500, "Address");
     if (capacity !== undefined) updates.capacity = capacity;
 
     if (Object.keys(updates).length > 0) {
