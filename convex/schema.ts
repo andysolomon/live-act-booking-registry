@@ -38,4 +38,37 @@ export default defineSchema({
     isActive: v.boolean(),
     createdAt: v.number(),
   }).index("by_isActive", ["isActive"]),
+
+  venues: defineTable({
+    ownerId: v.string(),
+    name: v.string(),
+    address: v.string(),
+    cityId: v.id("cities"),
+    capacity: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_ownerId", ["ownerId"])
+    .index("by_cityId", ["cityId"]),
+
+  performers: defineTable({
+    ownerId: v.string(),
+    stageName: v.string(),
+    genres: v.array(v.string()),
+    baseRateCents: v.optional(v.number()),
+    bio: v.string(),
+    cityId: v.id("cities"),
+    createdAt: v.number(),
+  })
+    .index("by_ownerId", ["ownerId"])
+    .index("by_cityId", ["cityId"]),
+
+  planners: defineTable({
+    ownerId: v.string(),
+    companyName: v.optional(v.string()),
+    eventTypes: v.array(v.string()),
+    cityId: v.id("cities"),
+    createdAt: v.number(),
+  })
+    .index("by_ownerId", ["ownerId"])
+    .index("by_cityId", ["cityId"]),
 });

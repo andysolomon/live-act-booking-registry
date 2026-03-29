@@ -23,6 +23,25 @@ export async function getAuthenticatedUser() {
     redirect("/onboarding/city");
   }
 
+  // Check profile exists for non-admin roles
+  const role = convexUser.role;
+  if (role === "venue_owner") {
+    const venue = await fetchQuery(api.venues.getVenueByOwner, {
+      clerkId: clerkUser.id,
+    });
+    if (!venue) redirect("/onboarding/profile");
+  } else if (role === "performer") {
+    const performer = await fetchQuery(api.performers.getPerformerByOwner, {
+      clerkId: clerkUser.id,
+    });
+    if (!performer) redirect("/onboarding/profile");
+  } else if (role === "planner") {
+    const planner = await fetchQuery(api.planners.getPlannerByOwner, {
+      clerkId: clerkUser.id,
+    });
+    if (!planner) redirect("/onboarding/profile");
+  }
+
   return {
     clerkUser,
     convexUser: convexUser as typeof convexUser & { role: UserRole },

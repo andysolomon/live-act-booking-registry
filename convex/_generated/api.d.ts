@@ -10,7 +10,10 @@
 
 import type * as cities from "../cities.js";
 import type * as cityRequests from "../cityRequests.js";
+import type * as performers from "../performers.js";
+import type * as planners from "../planners.js";
 import type * as users from "../users.js";
+import type * as venues from "../venues.js";
 
 import type {
   ApiFromModules,
@@ -21,7 +24,10 @@ import type {
 declare const fullApi: ApiFromModules<{
   cities: typeof cities;
   cityRequests: typeof cityRequests;
+  performers: typeof performers;
+  planners: typeof planners;
   users: typeof users;
+  venues: typeof venues;
 }>;
 
 /**

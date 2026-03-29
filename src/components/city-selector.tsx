@@ -40,7 +40,7 @@ export function CitySelector() {
         clerkId: user.id,
         cityId: selectedCityId as Id<"cities">,
       });
-      router.push("/dashboard");
+      router.push("/onboarding/profile");
     } catch {
       setLoading(false);
     }
