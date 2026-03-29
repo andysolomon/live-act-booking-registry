@@ -62,6 +62,68 @@ export const getPendingRequests = query({
   },
 });
 
+export const approveCity = mutation({
+  args: {
+    adminClerkId: v.string(),
+    requestId: v.id("cityRequests"),
+  },
+  handler: async (ctx, { adminClerkId, requestId }) => {
+    const admin = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", adminClerkId))
+      .unique();
+
+    if (!admin || (admin.role !== "admin" && admin.role !== "city_manager")) {
+      throw new Error("Only admins can approve city requests");
+    }
+
+    const request = await ctx.db.get(requestId);
+    if (!request || request.status !== "pending") {
+      throw new Error("Request not found or already processed");
+    }
+
+    await ctx.db.insert("cities", {
+      name: request.name,
+      stateOrRegion: request.stateOrRegion,
+      country: request.country,
+      isActive: true,
+      createdAt: Date.now(),
+    });
+
+    await ctx.db.patch(requestId, { status: "approved" });
+    return requestId;
+  },
+});
+
+export const rejectCity = mutation({
+  args: {
+    adminClerkId: v.string(),
+    requestId: v.id("cityRequests"),
+    rejectionReason: v.string(),
+  },
+  handler: async (ctx, { adminClerkId, requestId, rejectionReason }) => {
+    const admin = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", adminClerkId))
+      .unique();
+
+    if (!admin || (admin.role !== "admin" && admin.role !== "city_manager")) {
+      throw new Error("Only admins can reject city requests");
+    }
+
+    const request = await ctx.db.get(requestId);
+    if (!request || request.status !== "pending") {
+      throw new Error("Request not found or already processed");
+    }
+
+    await ctx.db.patch(requestId, {
+      status: "rejected",
+      rejectionReason,
+    });
+    return requestId;
+  },
+});
+
 export const getMyRequests = query({
   args: { clerkId: v.string() },
   handler: async (ctx, { clerkId }) => {
