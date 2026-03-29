@@ -12,6 +12,7 @@ const ROUTE_ACCESS: Record<string, UserRole[]> = {
   "/dashboard/availability": ["performer"],
   "/dashboard/admin": ["admin", "city_manager"],
   "/dashboard/admin/users": ["admin"],
+  "/dashboard/admin/cities": ["admin", "city_manager"],
 };
 
 export function canAccessRoute(role: UserRole, path: string): boolean {
