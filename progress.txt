@@ -18,10 +18,10 @@
     [ ] W-000017 CI/CD pipeline with Vercel preview deployments [P1]
 
 [ ] Phase 2 - Marketplace Core (17 stories)
-    [ ] W-000018 Recurring availability pattern [P0]
-    [ ] W-000019 Date-specific availability overrides [P1]
-    [ ] W-000020 Availability display on performer profile [P1]
-    [ ] W-000021 Automatic booking conflict detection [P0]
+    [x] W-000018 Recurring availability pattern [P0]
+    [x] W-000019 Date-specific availability overrides [P1]
+    [x] W-000020 Availability display on performer profile [P1]
+    [x] W-000021 Automatic booking conflict detection [P0]
     [ ] W-000022 Booking request creation [P0]
     [ ] W-000023 Performer accepts or declines a request [P0]
     [ ] W-000024 Full booking lifecycle state machine [P0]

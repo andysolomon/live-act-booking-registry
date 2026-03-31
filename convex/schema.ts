@@ -65,6 +65,21 @@ export default defineSchema({
     .index("by_ownerId", ["ownerId"])
     .index("by_cityId", ["cityId"]),
 
+  availabilityPatterns: defineTable({
+    performerId: v.id("performers"),
+    dayOfWeek: v.number(), // 0 = Sunday, 6 = Saturday
+    startTime: v.string(), // HH:MM
+    endTime: v.string(), // HH:MM
+  }).index("by_performerId", ["performerId"]),
+
+  availabilityOverrides: defineTable({
+    performerId: v.id("performers"),
+    date: v.string(), // YYYY-MM-DD
+    type: v.union(v.literal("block"), v.literal("available")),
+    startTime: v.optional(v.string()),
+    endTime: v.optional(v.string()),
+  }).index("by_performerId", ["performerId"]),
+
   planners: defineTable({
     ownerId: v.string(),
     companyName: v.optional(v.string()),
