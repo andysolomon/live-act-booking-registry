@@ -8,6 +8,13 @@ const ROUTE_ACCESS: Record<string, UserRole[]> = {
     "admin",
     "city_manager",
   ],
+  "/dashboard/bookings": [
+    "venue_owner",
+    "performer",
+    "planner",
+    "admin",
+    "city_manager",
+  ],
   "/dashboard/venue-settings": ["venue_owner"],
   "/dashboard/profile": ["performer"],
   "/dashboard/availability": ["performer"],

@@ -89,4 +89,38 @@ export default defineSchema({
   })
     .index("by_ownerId", ["ownerId"])
     .index("by_cityId", ["cityId"]),
+
+  bookings: defineTable({
+    venueId: v.id("venues"),
+    performerId: v.id("performers"),
+    requestedBy: v.string(), // clerkId of requester (venue owner or planner)
+    eventDate: v.string(), // YYYY-MM-DD
+    offeredRateCents: v.number(),
+    startTime: v.string(), // HH:MM
+    endTime: v.string(), // HH:MM
+    description: v.optional(v.string()),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("accepted"),
+      v.literal("declined"),
+      v.literal("in_progress"),
+      v.literal("completed"),
+      v.literal("canceled"),
+      v.literal("disputed"),
+    ),
+    canceledBy: v.optional(
+      v.union(
+        v.literal("venue"),
+        v.literal("performer"),
+        v.literal("planner"),
+      ),
+    ),
+    cancellationReason: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_performerId", ["performerId"])
+    .index("by_venueId", ["venueId"])
+    .index("by_requestedBy", ["requestedBy"])
+    .index("by_status", ["status"]),
 });

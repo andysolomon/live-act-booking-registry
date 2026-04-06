@@ -230,8 +230,22 @@ export const isPerformerAvailable = query({
       return { available: false, reason: "Performer is not available on this day" };
     }
 
-    // Check existing accepted bookings (table doesn't exist yet — will be added in Batch 2)
-    // For now, just check availability patterns
+    // Check existing accepted/in_progress bookings
+    const bookings = await ctx.db
+      .query("bookings")
+      .withIndex("by_performerId", (q) => q.eq("performerId", performerId))
+      .collect();
+
+    const hasBooking = bookings.some(
+      (b) =>
+        b.eventDate === date &&
+        (b.status === "accepted" || b.status === "in_progress"),
+    );
+
+    if (hasBooking) {
+      return { available: false, reason: "Performer already booked on this date" };
+    }
+
     return { available: true, reason: "Available" };
   },
 });
