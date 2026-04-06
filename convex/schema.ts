@@ -48,6 +48,7 @@ export default defineSchema({
     address: v.string(),
     cityId: v.id("cities"),
     capacity: v.optional(v.number()),
+    isTemporary: v.optional(v.boolean()),
     createdAt: v.number(),
   })
     .index("by_ownerId", ["ownerId"])

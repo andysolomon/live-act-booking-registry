@@ -70,6 +70,32 @@ export const getVenueByOwner = query({
   },
 });
 
+export const getVenueById = query({
+  args: { venueId: v.id("venues") },
+  handler: async (ctx, { venueId }) => {
+    return await ctx.db.get(venueId);
+  },
+});
+
+export const createTemporaryVenue = mutation({
+  args: {
+    name: v.string(),
+    address: v.string(),
+    cityId: v.id("cities"),
+    createdBy: v.string(),
+  },
+  handler: async (ctx, { name, address, cityId, createdBy }) => {
+    return await ctx.db.insert("venues", {
+      ownerId: createdBy,
+      name: sanitizeText(name, 200, "Venue name"),
+      address: sanitizeText(address, 500, "Address"),
+      cityId,
+      isTemporary: true,
+      createdAt: Date.now(),
+    });
+  },
+});
+
 export const getVenuesByCityId = query({
   args: { cityId: v.id("cities") },
   handler: async (ctx, { cityId }) => {
