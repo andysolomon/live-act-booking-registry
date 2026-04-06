@@ -119,3 +119,43 @@ export const getPerformersByCityId = query({
       .collect();
   },
 });
+
+export const getPerformerById = query({
+  args: { performerId: v.id("performers") },
+  handler: async (ctx, { performerId }) => {
+    return await ctx.db.get(performerId);
+  },
+});
+
+export const searchPerformers = query({
+  args: {
+    cityId: v.id("cities"),
+    genres: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, { cityId, genres }) => {
+    let performers = await ctx.db
+      .query("performers")
+      .withIndex("by_cityId", (q) => q.eq("cityId", cityId))
+      .collect();
+
+    // Filter by genres if specified
+    if (genres && genres.length > 0) {
+      performers = performers.filter((p) =>
+        genres.some((g) => p.genres.includes(g)),
+      );
+    }
+
+    // Filter out suspended users
+    const enriched = await Promise.all(
+      performers.map(async (p) => {
+        const user = await ctx.db
+          .query("users")
+          .withIndex("by_clerkId", (q) => q.eq("clerkId", p.ownerId))
+          .unique();
+        return { ...p, isSuspended: user?.status === "suspended" };
+      }),
+    );
+
+    return enriched.filter((p) => !p.isSuspended);
+  },
+});

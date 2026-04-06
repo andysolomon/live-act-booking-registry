@@ -12,18 +12,20 @@ type NavItem = {
 const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   venue_owner: [
     { label: "Dashboard", href: "/dashboard" },
+    { label: "Discover", href: "/dashboard/discover" },
     { label: "Bookings", href: "/dashboard/bookings" },
     { label: "Venue Settings", href: "/dashboard/venue-settings" },
   ],
   performer: [
     { label: "Dashboard", href: "/dashboard" },
+    { label: "Discover", href: "/dashboard/discover" },
     { label: "Bookings", href: "/dashboard/bookings" },
     { label: "Profile", href: "/dashboard/profile" },
     { label: "Availability", href: "/dashboard/availability" },
   ],
   planner: [
     { label: "Dashboard", href: "/dashboard" },
-    { label: "Events", href: "/dashboard/events" },
+    { label: "Discover", href: "/dashboard/discover" },
     { label: "Bookings", href: "/dashboard/bookings" },
   ],
   admin: [
