@@ -1,6 +1,26 @@
 import { v } from "convex/values";
+import type { MutationCtx } from "./_generated/server";
 import { mutation, query } from "./_generated/server";
 import { sanitizeText } from "./lib/sanitize";
+
+// --- Helpers ---
+
+async function notify(
+  ctx: MutationCtx,
+  userId: string,
+  type: string,
+  message: string,
+  relatedId?: string,
+) {
+  await ctx.db.insert("notifications", {
+    userId,
+    type,
+    message,
+    read: false,
+    relatedId,
+    createdAt: Date.now(),
+  });
+}
 
 // --- Mutations ---
 
@@ -41,7 +61,7 @@ export const createBookingRequest = mutation({
     }
 
     const now = Date.now();
-    return await ctx.db.insert("bookings", {
+    const bookingId = await ctx.db.insert("bookings", {
       venueId: args.venueId,
       performerId: args.performerId,
       requestedBy: args.requestedBy,
@@ -56,6 +76,17 @@ export const createBookingRequest = mutation({
       createdAt: now,
       updatedAt: now,
     });
+
+    // Notify the performer of the new booking request
+    await notify(
+      ctx,
+      performer.ownerId,
+      "booking_request",
+      `New booking request at ${venue.name} for ${args.eventDate}`,
+      bookingId,
+    );
+
+    return bookingId;
   },
 });
 
@@ -85,6 +116,14 @@ export const respondToBooking = mutation({
         updatedAt: now,
       });
 
+      await notify(
+        ctx,
+        booking.requestedBy,
+        "booking_accepted",
+        `Your booking request for ${booking.eventDate} was accepted`,
+        bookingId,
+      );
+
       // Auto-decline conflicting pending requests on the same date
       const pendingBookings = await ctx.db
         .query("bookings")
@@ -103,6 +142,13 @@ export const respondToBooking = mutation({
             status: "declined",
             updatedAt: now,
           });
+          await notify(
+            ctx,
+            other.requestedBy,
+            "booking_declined",
+            `Your booking for ${other.eventDate} was declined (performer booked another gig)`,
+            other._id,
+          );
         }
       }
     } else {
@@ -110,6 +156,13 @@ export const respondToBooking = mutation({
         status: "declined",
         updatedAt: now,
       });
+      await notify(
+        ctx,
+        booking.requestedBy,
+        "booking_declined",
+        `Your booking request for ${booking.eventDate} was declined`,
+        bookingId,
+      );
     }
 
     return bookingId;
@@ -145,6 +198,20 @@ export const cancelBooking = mutation({
       updatedAt: Date.now(),
     });
 
+    // Notify the other party
+    const performer = await ctx.db.get(booking.performerId);
+    const otherPartyUserId =
+      canceledBy === "performer" ? booking.requestedBy : performer?.ownerId;
+    if (otherPartyUserId) {
+      await notify(
+        ctx,
+        otherPartyUserId,
+        "booking_canceled",
+        `Booking for ${booking.eventDate} was canceled: ${reason}`,
+        bookingId,
+      );
+    }
+
     return bookingId;
   },
 });
@@ -178,6 +245,24 @@ export const markCompleted = mutation({
       status: "completed",
       updatedAt: Date.now(),
     });
+
+    const performer = await ctx.db.get(booking.performerId);
+    if (performer) {
+      await notify(
+        ctx,
+        performer.ownerId,
+        "booking_completed",
+        `Booking for ${booking.eventDate} marked as completed`,
+        bookingId,
+      );
+    }
+    await notify(
+      ctx,
+      booking.requestedBy,
+      "booking_completed",
+      `Booking for ${booking.eventDate} marked as completed`,
+      bookingId,
+    );
   },
 });
 

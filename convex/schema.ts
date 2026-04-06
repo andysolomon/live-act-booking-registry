@@ -91,6 +91,15 @@ export default defineSchema({
     .index("by_ownerId", ["ownerId"])
     .index("by_cityId", ["cityId"]),
 
+  notifications: defineTable({
+    userId: v.string(), // clerkId
+    type: v.string(),
+    message: v.string(),
+    read: v.boolean(),
+    relatedId: v.optional(v.string()),
+    createdAt: v.number(),
+  }).index("by_userId_read", ["userId", "read"]),
+
   bookings: defineTable({
     venueId: v.id("venues"),
     performerId: v.id("performers"),
