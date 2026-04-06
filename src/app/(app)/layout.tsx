@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 import { getAuthenticatedUser } from "@/lib/auth";
 import { DashboardNav } from "@/components/dashboard-nav";
+import { NotificationBell } from "@/components/notification-bell";
 
 export default async function AppLayout({
   children,
@@ -20,6 +21,7 @@ export default async function AppLayout({
             <DashboardNav role={convexUser.role} />
           </div>
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <span className="text-sm text-zinc-500 dark:text-zinc-400">
               {clerkUser.firstName ?? clerkUser.emailAddresses[0]?.emailAddress}
             </span>

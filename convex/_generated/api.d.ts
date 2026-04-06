@@ -14,6 +14,7 @@ import type * as bookings from "../bookings.js";
 import type * as cities from "../cities.js";
 import type * as cityRequests from "../cityRequests.js";
 import type * as lib_sanitize from "../lib/sanitize.js";
+import type * as notifications from "../notifications.js";
 import type * as performers from "../performers.js";
 import type * as planners from "../planners.js";
 import type * as users from "../users.js";
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   cities: typeof cities;
   cityRequests: typeof cityRequests;
   "lib/sanitize": typeof lib_sanitize;
+  notifications: typeof notifications;
   performers: typeof performers;
   planners: typeof planners;
   users: typeof users;

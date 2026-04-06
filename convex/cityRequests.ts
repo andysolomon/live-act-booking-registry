@@ -91,6 +91,17 @@ export const approveCity = mutation({
     });
 
     await ctx.db.patch(requestId, { status: "approved" });
+
+    // Notify requester
+    await ctx.db.insert("notifications", {
+      userId: request.requestedBy,
+      type: "city_request_approved",
+      message: `Your city request for ${request.name}, ${request.stateOrRegion} was approved`,
+      read: false,
+      relatedId: requestId,
+      createdAt: Date.now(),
+    });
+
     return requestId;
   },
 });

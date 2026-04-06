@@ -33,8 +33,8 @@
     [x] W-000030 Planner books at a registered venue [P1]
     [x] W-000031 Planner books at an arbitrary location [P1]
     [x] W-000032 Performer public profile page [P1]
-    [ ] W-000033 In-app real-time notifications [P1]
-    [ ] W-000034 Convex schema and mutation unit tests [P1]
+    [x] W-000033 In-app real-time notifications [P1]
+    [x] W-000034 Convex schema and mutation unit tests [P1]
 
 [ ] Phase 3 - Trust and Reputation (8 stories)
     [ ] W-000035 Post-gig venue rates performer [P1]
